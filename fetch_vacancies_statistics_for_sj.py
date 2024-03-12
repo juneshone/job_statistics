@@ -1,7 +1,7 @@
 from data_conversion import (get_vacancies_data,
                              get_average_salary,
                              get_count_of_vacancies,
-                             predict_salary_sj)
+                             predict_salary)
 
 
 def fetch_statistics_sj(api_key, language, vacancies_statistics_sj):
@@ -37,6 +37,6 @@ def predict_rub_salary_sj(vacancy):
     salary_from = vacancy['payment_from']
     salary_to = vacancy['payment_to']
     if vacancy['currency'] == 'rub':
-        return predict_salary_sj(salary_from, salary_to)
+        return predict_salary(salary_from, salary_to)
     else:
         return None

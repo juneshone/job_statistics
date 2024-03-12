@@ -8,7 +8,7 @@ def get_vacancies_data(url, headers, payload):
     return vacancies
 
 
-def predict_salary_sj(salary_from, salary_to):
+def predict_salary(salary_from, salary_to):
     if salary_from and salary_to:
         return (salary_from + salary_to) * 0.5
     elif not salary_to and salary_from:

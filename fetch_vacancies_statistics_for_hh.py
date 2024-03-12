@@ -1,7 +1,7 @@
 from data_conversion import (get_vacancies_data,
                              get_average_salary,
                              get_count_of_vacancies,
-                             predict_salary_sj)
+                             predict_salary)
 
 
 def fetch_statistics_hh(language, vacancies_statistics_hh):
@@ -33,6 +33,6 @@ def predict_rub_salary(vacancy):
     salary_from = vacancy['from']
     salary_to = vacancy['to']
     if vacancy['currency'] == 'RUR':
-        return predict_salary_sj(salary_from, salary_to)
+        return predict_salary(salary_from, salary_to)
     else:
         return None
