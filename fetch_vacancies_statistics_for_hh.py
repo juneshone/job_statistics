@@ -4,7 +4,7 @@ from data_conversion import (get_vacancies_data,
                              predict_salary)
 
 
-def fetch_statistics_hh(language, vacancies_statistics_hh):
+def fetch_hh_statistics(language, hh_vacancies_statistics):
     url = 'https://api.hh.ru/vacancies/'
     payload = {
         'text': language,
@@ -13,23 +13,23 @@ def fetch_statistics_hh(language, vacancies_statistics_hh):
         'per_page': 20,
     }
     vacancies = get_vacancies_data(url, None, payload)
-    vacancies_salary = []
+    vacancies_salaries = []
     page = 0
     while page < vacancies['pages']:
         page += 1
         for vacancy in vacancies['items']:
             if not vacancy['salary']:
                 continue
-            vacancies_salary.append(predict_rub_salary(vacancy['salary']))
-    vacancies_statistics_hh[language] = {
+            vacancies_salaries.append(predict_rub_salary_hh(vacancy['salary']))
+    hh_vacancies_statistics[language] = {
         'vacancies_found': vacancies['found'],
-        'vacancies_processed': get_count_of_vacancies(vacancies_salary),
-        'average_salary': get_average_salary(vacancies_salary)
+        'vacancies_processed': get_count_of_vacancies(vacancies_salaries),
+        'average_salary': get_average_salary(vacancies_salaries)
     }
-    return vacancies_statistics_hh
+    return hh_vacancies_statistics
 
 
-def predict_rub_salary(vacancy):
+def predict_rub_salary_hh(vacancy):
     salary_from = vacancy['from']
     salary_to = vacancy['to']
     if vacancy['currency'] == 'RUR':

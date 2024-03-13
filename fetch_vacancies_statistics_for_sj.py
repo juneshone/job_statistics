@@ -4,7 +4,7 @@ from data_conversion import (get_vacancies_data,
                              predict_salary)
 
 
-def fetch_statistics_sj(api_key, language, vacancies_statistics_sj):
+def fetch_sj_statistics(api_key, language, sj_vacancies_statistics):
     url = 'https://api.superjob.ru/2.0/vacancies/'
     headers = {
         'X-Api-App-Id': api_key
@@ -18,19 +18,19 @@ def fetch_statistics_sj(api_key, language, vacancies_statistics_sj):
         'count': count,
     }
     vacancies = get_vacancies_data(url, headers, payload)
-    vacancies_salary = []
+    vacancies_salaries = []
     page = 0
     pages = int(vacancies['total'] // count) + 1
     while page < pages:
         page += 1
         for vacancy in vacancies['objects']:
-            vacancies_salary.append(predict_rub_salary_sj(vacancy))
-    vacancies_statistics_sj[language] = {
+            vacancies_salaries.append(predict_rub_salary_sj(vacancy))
+    sj_vacancies_statistics[language] = {
         'vacancies_found': vacancies['total'],
-        'vacancies_processed': get_count_of_vacancies(vacancies_salary),
-        'average_salary': get_average_salary(vacancies_salary)
+        'vacancies_processed': get_count_of_vacancies(vacancies_salaries),
+        'average_salary': get_average_salary(vacancies_salaries)
     }
-    return vacancies_statistics_sj
+    return sj_vacancies_statistics
 
 
 def predict_rub_salary_sj(vacancy):

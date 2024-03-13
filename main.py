@@ -1,13 +1,13 @@
 from environs import Env
 from get_statistics_in_table import get_table
-from fetch_vacancies_statistics_for_hh import fetch_statistics_hh
-from fetch_vacancies_statistics_for_sj import fetch_statistics_sj
+from fetch_vacancies_statistics_for_hh import fetch_hh_statistics
+from fetch_vacancies_statistics_for_sj import fetch_sj_statistics
 
 
 def main():
     env = Env()
     env.read_env()
-    secret_key_sj = env.str('SECRET_KEY_SJ')
+    sj_secret_key = env.str('SJ_SECRET_KEY')
     programming_languages = [
         'JavaScript',
         'Java',
@@ -20,17 +20,17 @@ def main():
         'Go',
         'Scala'
     ]
-    table_title_hh = 'HeadHunter Moscow'
-    table_title_sj = 'SuperJob Moscow'
-    vacancies_statistics_sj = {}
-    vacancies_statistics_hh = {}
+    hh_table_title = 'HeadHunter Moscow'
+    sj_table_title = 'SuperJob Moscow'
+    hh_vacancies_statistics = {}
+    sj_vacancies_statistics = {}
     for language in programming_languages:
-        vacancies_statistics_hh = fetch_statistics_hh(language, vacancies_statistics_hh)
-        vacancies_statistics_sj = fetch_statistics_sj(secret_key_sj,
+        hh_vacancies_statistics = fetch_hh_statistics(language, hh_vacancies_statistics)
+        sj_vacancies_statistics = fetch_sj_statistics(sj_secret_key,
                                                       language,
-                                                      vacancies_statistics_sj)
-    print(get_table(vacancies_statistics_hh, table_title_hh))
-    print(get_table(vacancies_statistics_sj, table_title_sj))
+                                                      sj_vacancies_statistics)
+    print(get_table(hh_vacancies_statistics, hh_table_title))
+    print(get_table(sj_vacancies_statistics, sj_table_title))
 
 
 if __name__ == '__main__':

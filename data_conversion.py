@@ -20,14 +20,14 @@ def predict_salary(salary_from, salary_to):
 
 
 def get_average_salary(salaries):
-    salaries_list = [i for i in salaries if i is not None]
+    salaries_data = [i for i in salaries if i is not None]
     try:
-        average_salary = sum(salaries_list) / len(salaries_list)
+        average_salary = sum(salaries_data) / len(salaries_data)
     except ZeroDivisionError:
         average_salary = 0
     return int(average_salary)
 
 
 def get_count_of_vacancies(salaries):
-    salaries_list = [i for i in salaries if i is not None]
-    return len(salaries_list)
+    salaries_data = [i for i in salaries if i is not None]
+    return len(salaries_data)
