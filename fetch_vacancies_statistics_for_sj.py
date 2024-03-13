@@ -1,3 +1,4 @@
+from itertools import count
 from data_conversion import (get_vacancies_data,
                              get_average_salary,
                              predict_salary)
@@ -11,27 +12,25 @@ def fetch_sj_statistics(api_key, language, sj_vacancies_statistics):
     town_name = 4
     publication_period = 30
     industry_id = 48
-    vacancies_count_on_page = 100
-    payload = {
-        'keyword': language,
-        'town': town_name,
-        'period': publication_period,
-        'catalogues': industry_id,
-        'count': vacancies_count_on_page,
-    }
-    vacancies = get_vacancies_data(url, headers, payload)
-    vacancies_salaries = []
-    page = 0
-    pages = int(vacancies['total'] // vacancies_count_on_page) + 1
-    while page < pages:
-        page += 1
-        for vacancy in vacancies['objects']:
+    for page in count(0):
+        payload = {
+            'keyword': language,
+            'town': town_name,
+            'period': publication_period,
+            'catalogues': industry_id,
+            'page': page
+        }
+        page_vacancies = get_vacancies_data(url, headers, payload)
+        vacancies_salaries = []
+        for vacancy in page_vacancies['objects']:
             vacancies_salaries.append(predict_rub_salary_sj(vacancy))
-    sj_vacancies_statistics[language] = {
-        'vacancies_found': vacancies['total'],
-        'vacancies_processed': get_average_salary(vacancies_salaries)[1],
-        'average_salary': get_average_salary(vacancies_salaries)[0]
-    }
+        sj_vacancies_statistics[language] = {
+            'vacancies_found': page_vacancies['total'],
+            'vacancies_processed': get_average_salary(vacancies_salaries)[1],
+            'average_salary': get_average_salary(vacancies_salaries)[0]
+        }
+        if page_vacancies['more'] is False:
+            break
     return sj_vacancies_statistics
 
 
