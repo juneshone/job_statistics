@@ -1,6 +1,5 @@
 from data_conversion import (get_vacancies_data,
                              get_average_salary,
-                             get_count_of_vacancies,
                              predict_salary)
 
 
@@ -26,8 +25,8 @@ def fetch_hh_statistics(language, hh_vacancies_statistics):
             vacancies_salaries.append(predict_rub_salary_hh(vacancy['salary']))
     hh_vacancies_statistics[language] = {
         'vacancies_found': vacancies['found'],
-        'vacancies_processed': get_count_of_vacancies(vacancies_salaries),
-        'average_salary': get_average_salary(vacancies_salaries)
+        'vacancies_processed': get_average_salary(vacancies_salaries)[1],
+        'average_salary': get_average_salary(vacancies_salaries)[0]
     }
     return hh_vacancies_statistics
 

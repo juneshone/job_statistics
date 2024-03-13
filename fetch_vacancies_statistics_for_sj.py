@@ -1,6 +1,5 @@
 from data_conversion import (get_vacancies_data,
                              get_average_salary,
-                             get_count_of_vacancies,
                              predict_salary)
 
 
@@ -30,8 +29,8 @@ def fetch_sj_statistics(api_key, language, sj_vacancies_statistics):
             vacancies_salaries.append(predict_rub_salary_sj(vacancy))
     sj_vacancies_statistics[language] = {
         'vacancies_found': vacancies['total'],
-        'vacancies_processed': get_count_of_vacancies(vacancies_salaries),
-        'average_salary': get_average_salary(vacancies_salaries)
+        'vacancies_processed': get_average_salary(vacancies_salaries)[1],
+        'average_salary': get_average_salary(vacancies_salaries)[0]
     }
     return sj_vacancies_statistics
 
