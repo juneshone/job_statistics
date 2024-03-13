@@ -6,11 +6,14 @@ from data_conversion import (get_vacancies_data,
 
 def fetch_hh_statistics(language, hh_vacancies_statistics):
     url = 'https://api.hh.ru/vacancies/'
+    town_name = 1
+    publication_period = 30
+    vacancies_count_on_page = 20
     payload = {
         'text': language,
-        'area': 1,
-        'period': 30,
-        'per_page': 20,
+        'area': town_name,
+        'period': publication_period,
+        'per_page': vacancies_count_on_page,
     }
     vacancies = get_vacancies_data(url, None, payload)
     vacancies_salaries = []

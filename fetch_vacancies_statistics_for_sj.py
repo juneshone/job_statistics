@@ -9,18 +9,21 @@ def fetch_sj_statistics(api_key, language, sj_vacancies_statistics):
     headers = {
         'X-Api-App-Id': api_key
     }
-    count = 100
+    town_name = 4
+    publication_period = 30
+    industry_id = 48
+    vacancies_count_on_page = 100
     payload = {
         'keyword': language,
-        'town': 4,
-        'period': 30,
-        'catalogues': 48,
-        'count': count,
+        'town': town_name,
+        'period': publication_period,
+        'catalogues': industry_id,
+        'count': vacancies_count_on_page,
     }
     vacancies = get_vacancies_data(url, headers, payload)
     vacancies_salaries = []
     page = 0
-    pages = int(vacancies['total'] // count) + 1
+    pages = int(vacancies['total'] // vacancies_count_on_page) + 1
     while page < pages:
         page += 1
         for vacancy in vacancies['objects']:
