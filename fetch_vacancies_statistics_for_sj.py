@@ -12,6 +12,7 @@ def fetch_sj_statistics(api_key, language, sj_vacancies_statistics):
     town_name = 4
     publication_period = 30
     industry_id = 48
+    vacancies_salaries = []
     for page in count(0):
         payload = {
             'keyword': language,
@@ -21,7 +22,6 @@ def fetch_sj_statistics(api_key, language, sj_vacancies_statistics):
             'page': page
         }
         page_vacancies = get_vacancies_data(url, headers, payload)
-        vacancies_salaries = []
         for vacancy in page_vacancies['objects']:
             vacancies_salaries.append(predict_rub_salary_sj(vacancy))
         sj_vacancies_statistics[language] = {

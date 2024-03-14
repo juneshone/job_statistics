@@ -10,6 +10,7 @@ def fetch_hh_statistics(language, hh_vacancies_statistics):
     town_name = 1
     publication_period = 30
     vacancies_count_on_page = 100
+    vacancies_salaries = []
     for page in count(0):
         payload = {
             'text': language,
@@ -19,7 +20,6 @@ def fetch_hh_statistics(language, hh_vacancies_statistics):
             'page': page
         }
         page_vacancies = get_vacancies_data(url, None, payload)
-        vacancies_salaries = []
         for vacancy in page_vacancies['items']:
             if not vacancy['salary']:
                 continue
