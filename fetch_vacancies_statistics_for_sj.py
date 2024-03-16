@@ -25,7 +25,7 @@ def fetch_sj_salaries(api_key, language):
         vacancies_found = page_vacancies['total']
         for vacancy in page_vacancies['objects']:
             vacancies_salaries.append(predict_rub_salary_sj(vacancy))
-        if page_vacancies['more'] is False:
+        if not page_vacancies['more']:
             break
     return vacancies_salaries, vacancies_found
 
