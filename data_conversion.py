@@ -20,10 +20,10 @@ def predict_salary(salary_from, salary_to):
 
 
 def get_salary_calculation(salaries):
-    salaries_data = [salary for salary in salaries if salary]
-    salaries_count = len(salaries_data)
+    salaries_selection = [salary for salary in salaries if salary]
+    salaries_count = len(salaries_selection)
     try:
-        average_salary = int(sum(salaries_data) / salaries_count)
+        average_salary = int(sum(salaries_selection) / salaries_count)
     except ZeroDivisionError:
         average_salary = 0
     return average_salary, salaries_count
