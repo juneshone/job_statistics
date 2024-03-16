@@ -20,7 +20,7 @@ def predict_salary(salary_from, salary_to):
 
 
 def get_salary_calculation(salaries):
-    salaries_data = [i for i in salaries if i]
+    salaries_data = [salary for salary in salaries if salary]
     salaries_count = len(salaries_data)
     try:
         average_salary = int(sum(salaries_data) / salaries_count)
