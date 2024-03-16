@@ -1,7 +1,18 @@
 from environs import Env
 from get_statistics_in_table import get_table
-from fetch_vacancies_statistics_for_hh import fetch_hh_statistics
-from fetch_vacancies_statistics_for_sj import fetch_sj_statistics
+from fetch_vacancies_statistics_for_hh import fetch_hh_salaries
+from fetch_vacancies_statistics_for_sj import fetch_sj_salaries
+from data_conversion import get_salary_calculation
+
+
+def get_statistics(vacancies_salaries, vacancies_found):
+    salary_calculation = get_salary_calculation(vacancies_salaries)
+    vacancies_statistics = {
+        'vacancies_found': vacancies_found,
+        'vacancies_processed': salary_calculation[1],
+        'average_salary': salary_calculation[0]
+    }
+    return vacancies_statistics
 
 
 def main():
@@ -25,10 +36,19 @@ def main():
     hh_vacancies_statistics = {}
     sj_vacancies_statistics = {}
     for language in programming_languages:
-        hh_vacancies_statistics = fetch_hh_statistics(language, hh_vacancies_statistics)
-        sj_vacancies_statistics = fetch_sj_statistics(sj_secret_key,
-                                                      language,
-                                                      sj_vacancies_statistics)
+        hh_vacancies_salaries, hh_vacancies_found = fetch_hh_salaries(language)
+        sj_vacancies_salaries, sj_vacancies_found = fetch_sj_salaries(
+            sj_secret_key,
+            language
+        )
+        hh_vacancies_statistics[language] = get_statistics(
+            hh_vacancies_salaries,
+            hh_vacancies_found
+        )
+        sj_vacancies_statistics[language] = get_statistics(
+            sj_vacancies_salaries,
+            sj_vacancies_found
+        )
     print(get_table(hh_vacancies_statistics, hh_table_title))
     print(get_table(sj_vacancies_statistics, sj_table_title))
 

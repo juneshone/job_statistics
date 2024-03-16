@@ -1,7 +1,7 @@
 import requests
 
 
-def get_vacancies_data(url, headers, payload):
+def get_vacancies(url, headers, payload):
     response = requests.get(url, headers=headers, params=payload)
     response.raise_for_status()
     vacancies = response.json()
