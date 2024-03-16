@@ -1,7 +1,7 @@
 import time
 from itertools import count
 from data_conversion import (get_vacancies_data,
-                             get_average_salary,
+                             get_salary_calculation,
                              predict_salary)
 
 
@@ -24,10 +24,11 @@ def fetch_hh_statistics(language, hh_vacancies_statistics):
             if not vacancy['salary']:
                 continue
             vacancies_salaries.append(predict_rub_salary_hh(vacancy['salary']))
+        salary_calculation = get_salary_calculation(vacancies_salaries)
         hh_vacancies_statistics[language] = {
             'vacancies_found': page_vacancies['found'],
-            'vacancies_processed': get_average_salary(vacancies_salaries)[1],
-            'average_salary': get_average_salary(vacancies_salaries)[0]
+            'vacancies_processed': salary_calculation[1],
+            'average_salary': salary_calculation[0]
         }
         max_pages_count = 19
         if page >= page_vacancies['pages'] or page >= max_pages_count:

@@ -19,7 +19,7 @@ def predict_salary(salary_from, salary_to):
         return None
 
 
-def get_average_salary(salaries):
+def get_salary_calculation(salaries):
     salaries_data = [i for i in salaries if i is not None]
     salaries_count = len(salaries_data)
     try:
