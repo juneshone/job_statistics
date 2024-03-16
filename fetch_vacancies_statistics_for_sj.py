@@ -12,6 +12,7 @@ def fetch_sj_statistics(api_key, language, sj_vacancies_statistics):
     town_name = 4
     publication_period = 30
     industry_id = 48
+    vacancies_found = 0
     vacancies_salaries = []
     for page in count(0):
         payload = {
@@ -22,16 +23,17 @@ def fetch_sj_statistics(api_key, language, sj_vacancies_statistics):
             'page': page
         }
         page_vacancies = get_vacancies_data(url, headers, payload)
+        vacancies_found = page_vacancies['total']
         for vacancy in page_vacancies['objects']:
             vacancies_salaries.append(predict_rub_salary_sj(vacancy))
-        salary_calculation = get_salary_calculation(vacancies_salaries)
-        sj_vacancies_statistics[language] = {
-            'vacancies_found': page_vacancies['total'],
-            'vacancies_processed': salary_calculation[1],
-            'average_salary': salary_calculation[0]
-        }
         if page_vacancies['more'] is False:
             break
+    salary_calculation = get_salary_calculation(vacancies_salaries)
+    sj_vacancies_statistics[language] = {
+        'vacancies_found': vacancies_found,
+        'vacancies_processed': salary_calculation[1],
+        'average_salary': salary_calculation[0]
+    }
     return sj_vacancies_statistics
 
 
