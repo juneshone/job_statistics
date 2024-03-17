@@ -6,7 +6,7 @@ from data_conversion import (get_vacancies,
 
 def fetch_hh_salaries(language):
     url = 'https://api.hh.ru/vacancies/'
-    town_name = 1
+    moscow_city = 1
     publication_period = 30
     vacancies_count_on_page = 100
     vacancies_found = 0
@@ -14,7 +14,7 @@ def fetch_hh_salaries(language):
     for page in count(0):
         payload = {
             'text': language,
-            'area': town_name,
+            'area': moscow_city,
             'period': publication_period,
             'per_page': vacancies_count_on_page,
             'page': page
