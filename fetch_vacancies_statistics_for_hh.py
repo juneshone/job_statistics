@@ -7,7 +7,7 @@ from requests.exceptions import HTTPError
 
 def fetch_hh_salaries(language):
     url = 'https://api.hh.ru/vacancies/'
-    moscow_city = 1
+    moscow_city_id = 1
     publication_period = 30
     vacancies_count_on_page = 100
     vacancies_found = 0
@@ -15,7 +15,7 @@ def fetch_hh_salaries(language):
     for page in count(0):
         payload = {
             'text': language,
-            'area': moscow_city,
+            'area': moscow_city_id,
             'period': publication_period,
             'per_page': vacancies_count_on_page,
             'page': page
