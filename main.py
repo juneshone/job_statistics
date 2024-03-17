@@ -1,8 +1,30 @@
 from environs import Env
-from get_statistics_in_table import get_table
 from fetch_vacancies_statistics_for_hh import fetch_hh_salaries
 from fetch_vacancies_statistics_for_sj import fetch_sj_salaries
 from data_conversion import get_statistics
+from terminaltables import AsciiTable
+
+
+def get_table(vacancies_statistics, table_title):
+    table_data = [
+        [
+            'Язык программирования',
+            'Вакансий найдено',
+            'Вакансий обработано',
+            'Средняя зарплата'
+        ]
+    ]
+    for language, language_statistics in vacancies_statistics.items():
+        table_data.append(
+            [
+                language,
+                language_statistics['vacancies_found'],
+                language_statistics['vacancies_processed'],
+                language_statistics['average_salary']
+            ]
+        )
+    table = AsciiTable(table_data, table_title)
+    return table.table
 
 
 def main():
