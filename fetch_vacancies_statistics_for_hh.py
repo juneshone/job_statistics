@@ -2,6 +2,7 @@ import time
 from itertools import count
 from data_conversion import (get_vacancies,
                              predict_salary)
+from requests.exceptions import HTTPError
 
 
 def fetch_hh_salaries(language):
@@ -19,14 +20,13 @@ def fetch_hh_salaries(language):
             'per_page': vacancies_count_on_page,
             'page': page
         }
-        page_vacancies = get_vacancies(url, None, payload)
-        vacancies_found = page_vacancies['found']
-        for vacancy in page_vacancies['items']:
-            if not vacancy['salary']:
-                continue
-            vacancies_salaries.append(predict_rub_salary_hh(vacancy['salary']))
-        max_pages_count = 19
-        if page >= page_vacancies['pages'] or page >= max_pages_count:
+        try:
+            page_vacancies = get_vacancies(url, None, payload)
+            vacancies_found = page_vacancies['found']
+            for vacancy in page_vacancies['items']:
+                if vacancy['salary']:
+                    vacancies_salaries.append(predict_rub_salary_hh(vacancy['salary']))
+        except HTTPError:
             time.sleep(30)
             break
     return vacancies_salaries, vacancies_found
