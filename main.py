@@ -2,17 +2,7 @@ from environs import Env
 from get_statistics_in_table import get_table
 from fetch_vacancies_statistics_for_hh import fetch_hh_salaries
 from fetch_vacancies_statistics_for_sj import fetch_sj_salaries
-from data_conversion import get_salary_calculation
-
-
-def get_statistics(vacancies_salaries, vacancies_found):
-    salary_calculation = get_salary_calculation(vacancies_salaries)
-    vacancies_statistics = {
-        'vacancies_found': vacancies_found,
-        'vacancies_processed': salary_calculation[1],
-        'average_salary': salary_calculation[0]
-    }
-    return vacancies_statistics
+from data_conversion import get_statistics
 
 
 def main():
